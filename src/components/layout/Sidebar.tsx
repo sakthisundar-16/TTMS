@@ -12,11 +12,13 @@ import {
   LogOut,
   ChevronLeft,
   Menu,
+  AlertCircle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navigation = [
   { name: 'Timetable', href: '/', icon: Calendar },
+  { name: 'Leave Permissions', href: '/leave-permissions', icon: AlertCircle },
 ];
 
 const bottomNav: { name: string; href: string; icon: typeof Calendar }[] = [];
