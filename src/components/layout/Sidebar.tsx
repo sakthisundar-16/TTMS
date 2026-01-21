@@ -35,7 +35,7 @@ export function Sidebar() {
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground/10">
             <GraduationCap className="h-6 w-6 text-primary-foreground" />
           </div>
-          <span className="text-lg font-bold text-primary-foreground">AMS</span>
+          <span className="text-lg font-bold text-primary-foreground">TTMS</span>
         </div>
         <button
           onClick={() => setCollapsed(!collapsed)}
@@ -68,8 +68,8 @@ export function Sidebar() {
             </div>
             {!collapsed && (
               <div className="flex flex-col">
-                <span className="text-lg font-bold text-primary-foreground">AMS</span>
-                <span className="text-xs text-primary-foreground/60">Attendance System</span>
+                <span className="text-lg font-bold text-primary-foreground">TTMS</span>
+                <span className="text-xs text-primary-foreground/60">Time Table Management System</span>
               </div>
             )}
           </div>
