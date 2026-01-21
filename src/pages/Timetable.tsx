@@ -1,3 +1,4 @@
+import { useState, useMemo } from 'react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { TimetableGrid } from '@/components/timetable/TimetableGrid';
 import {
@@ -9,7 +10,29 @@ import {
 } from '@/components/ui/select';
 import { Filter } from 'lucide-react';
 
+const yearToSemesterMap: Record<string, number[]> = {
+  '1': [1, 2],
+  '2': [3, 4],
+  '3': [5, 6],
+  '4': [7, 8],
+};
+
 export default function Timetable() {
+  const [selectedYear, setSelectedYear] = useState('3');
+  const [selectedSemester, setSelectedSemester] = useState('5');
+
+  const availableSemesters = useMemo(() => {
+    return yearToSemesterMap[selectedYear] || [];
+  }, [selectedYear]);
+
+  const handleYearChange = (year: string) => {
+    setSelectedYear(year);
+    const semesters = yearToSemesterMap[year] || [];
+    if (semesters.length > 0) {
+      setSelectedSemester(String(semesters[0]));
+    }
+  };
+
   return (
     <DashboardLayout
       title="Timetable"
@@ -25,20 +48,24 @@ export default function Timetable() {
           <div className="grid gap-4 sm:grid-cols-3">
             <div className="space-y-2">
               <label className="text-sm font-medium text-foreground">Department</label>
-              <Select defaultValue="ai-ds">
+              <Select defaultValue="cse">
                 <SelectTrigger className="bg-background border-border/50 hover:border-border transition-colors">
                   <SelectValue placeholder="Select department" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="ai-ds">AI & Data Science</SelectItem>
-                  <SelectItem value="cse">Computer Science</SelectItem>
-                  <SelectItem value="it">Information Technology</SelectItem>
+                  <SelectItem value="cse">Computer Science (CSE)</SelectItem>
+                  <SelectItem value="it">Information Technology (IT)</SelectItem>
+                  <SelectItem value="mech">Mechanical Engineering (MECH)</SelectItem>
+                  <SelectItem value="eee">Electrical & Electronics (EEE)</SelectItem>
+                  <SelectItem value="ece">Electronics & Communication (ECE)</SelectItem>
+                  <SelectItem value="civil">Civil Engineering (CIVIL)</SelectItem>
+                  <SelectItem value="sh">Science & Humanities (S&H)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-foreground">Year</label>
-              <Select defaultValue="3">
+              <Select value={selectedYear} onValueChange={handleYearChange}>
                 <SelectTrigger className="bg-background border-border/50 hover:border-border transition-colors">
                   <SelectValue placeholder="Select year" />
                 </SelectTrigger>
@@ -52,19 +79,16 @@ export default function Timetable() {
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium text-foreground">Semester</label>
-              <Select defaultValue="5">
+              <Select value={selectedSemester} onValueChange={setSelectedSemester}>
                 <SelectTrigger className="bg-background border-border/50 hover:border-border transition-colors">
                   <SelectValue placeholder="Select semester" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="1">Semester 1</SelectItem>
-                  <SelectItem value="2">Semester 2</SelectItem>
-                  <SelectItem value="3">Semester 3</SelectItem>
-                  <SelectItem value="4">Semester 4</SelectItem>
-                  <SelectItem value="5">Semester 5</SelectItem>
-                  <SelectItem value="6">Semester 6</SelectItem>
-                  <SelectItem value="7">Semester 7</SelectItem>
-                  <SelectItem value="8">Semester 8</SelectItem>
+                  {availableSemesters.map((sem) => (
+                    <SelectItem key={sem} value={String(sem)}>
+                      Semester {sem}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
